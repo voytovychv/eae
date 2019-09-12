@@ -96,6 +96,7 @@
 				press: this.onBreadCrumbLinkPress.bind(this),
 				text: this.__currentName
 			});
+			
 			oLink.data("path", this.__currentPath);
 			oLink.data("name", this.__currentName);
 			breadCrumb.addLink(oLink);
@@ -106,6 +107,7 @@
 			this.delayedBusyOff();
 			
 			this.getView().byId("shiftReport").setShowFooter(true);
+			this._setNameOfBackTo();
 		},
 		
 		delayedBusyOff : function() {
@@ -150,6 +152,8 @@
 			
 			sap.ui.core.BusyIndicator.show(1);
 			this.delayedBusyOff();
+			
+			this._setNameOfBackTo();
 		},
 		
 		onBeforeOpenReportItem : function(oEvent) {
@@ -288,6 +292,36 @@
 			var oLink = oBreadCrumbs.getLinks()[0];
 			oLink.firePress();
 			this.getView().byId("shiftReport").setShowFooter(false);
-		}
+		},
+		
+		onBackTo : function (oEvent) {
+			var oBreadCrumbs = this.getView().byId("navBreadCrumb");
+			var aLinks = oBreadCrumbs.getLinks();
+			var iPosToNav = aLinks.length -1;
+			var oLink = aLinks[iPosToNav];
+			oLink.firePress();
+			
+			if(iPosToNav === 0) {
+				this.getView().byId("shiftReport").setShowFooter(false);	
+			}
+			
+			this._setNameOfBackTo();
+		},
+
+		_setNameOfBackTo: function() {
+			var oBreadCrumbs = this.getView().byId("navBreadCrumb");
+			var aLinks = oBreadCrumbs.getLinks();
+			
+			if(aLinks.length === 0) {
+				this.getView().byId("shiftReport").setShowFooter(false);
+				return;
+			}
+			
+			var iPosToNav = aLinks.length -1;
+			var oLink = aLinks[iPosToNav];
+
+			var sBackTo = this.getView().getModel("i18n").getResourceBundle().getText("backTo", oLink.getText());
+			this.getView().byId("backTo").setText(sBackTo);
+		},
 	});
 });

@@ -58,6 +58,9 @@
 		</semantic:content>
 		<semantic:footerMainAction>
 			<semantic:FooterMainAction id="Done" text="{i18n>done}" press="onDone"/>
-		</semantic:footerMainAction>		
+		</semantic:footerMainAction>
+		<semantic:footerCustomActions>
+			<Button id="backTo" text="{i19n>backTo}" press="onBackTo"/>
+		</semantic:footerCustomActions>
 	</semantic:SemanticPage>
 </mvc:View>
