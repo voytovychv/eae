@@ -16,18 +16,21 @@
 		
 		__count : -1,
 		
+		__i18nModel: undefined,
+		
 		onInit : function(){
 			var oRouter = this.getOwnerComponent().getRouter();
 			
 			oRouter.getRoute("shiftReport").attachPatternMatched(function(oEvent){
-				this.__all_langs = this.getView().getModel("i18n").getProperty("allLanguages");
+				this.__i18nModel = this.getView().getModel("i18n");
+				this.__all_langs = this.__i18nModel.getProperty("allLanguages");
 				this.__shiftId = oEvent.getParameter("arguments").shiftId;
 				this.__scheduleId = oEvent.getParameter("arguments").scheduleId;
 				this.__currentName = this.__all_langs;
 				this.refreshTable(this.__scheduleId, this.__shiftId);
 				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId + "/root";
 				
-				this.getView().byId("reportOverview").bindElement("/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId);
+				this.getView().byId("overviewBox").bindElement("/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId);
 				
 			}.bind(this));
 
@@ -88,7 +91,7 @@
 			
 			table.bindElement(sPath);
 
-			breadCrumb.setCurrentLocationText(liObject.displayCode);
+			breadCrumb.setCurrentLocationText(this.formatDisplayCode(liObject.displayCode));
 			var oLink = new Link({
 				press: this.onBreadCrumbLinkPress.bind(this),
 				text: this.__currentName
@@ -101,6 +104,8 @@
 			this.__currentName = liObject.displayCode;
 			sap.ui.core.BusyIndicator.show(1);
 			this.delayedBusyOff();
+			
+			this.getView().byId("shiftReport").setShowFooter(true);
 		},
 		
 		delayedBusyOff : function() {
@@ -248,6 +253,41 @@
 			this.__currentType = currentType;
 			console.log(this.__currentType);
 			console.log(this.__beforeCount);
+		},
+		
+		formatDisplayCode : function(sText) {
+			var value = "";
+			
+			switch(sText)  {
+				case("TRACT"):
+					value = this.__i18nModel.getProperty("tract");
+					break;
+
+				case("VIDEO"):
+					value = this.__i18nModel.getProperty("video");
+					break;
+				
+				case("BROCHURE"):
+					value = this.__i18nModel.getProperty("brochure");
+					break;
+
+				case("BOOK"):
+					value = this.__i18nModel.getProperty("book");
+					break;
+					
+				
+				default:
+					value = sText;
+					break;
+			}
+			return value;
+		},
+		
+		onDone : function (oEvent) {
+			var oBreadCrumbs = this.getView().byId("navBreadCrumb");
+			var oLink = oBreadCrumbs.getLinks()[0];
+			oLink.firePress();
+			this.getView().byId("shiftReport").setShowFooter(false);
 		}
 	});
 });

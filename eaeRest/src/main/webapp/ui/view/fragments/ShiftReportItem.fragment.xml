@@ -1,9 +1,9 @@
 <core:FragmentDefinition
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
-			<ColumnListItem id="reportItem" type="{= ${guid}  ? 'Active' : 'Navigation'}" press="">
+			<ColumnListItem id="reportItem" type="{= ${guid}  ? 'Active' : 'Navigation'}" visible="{= ${guid} !== null || ${children}.length > 0}">
 				<cells>
-					<Text text="{displayCode}" />								
+					<Text text="{ path:'displayCode', formatter: '.formatDisplayCode'}"/>								
 					<Text text="{calculatedCount}" />	
 				</cells>
 			</ColumnListItem>

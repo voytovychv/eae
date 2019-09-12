@@ -8,6 +8,7 @@
 		</App>
 	<u:headItems>
  				<u:ShellHeadItem
+ 					id="navigateBack"
 					tooltip="Configuration"
 					icon="sap-icon://nav-back"
 					press="onNavBack" />

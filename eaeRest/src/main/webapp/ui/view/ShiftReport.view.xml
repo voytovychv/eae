@@ -3,30 +3,26 @@
 	<semantic:SemanticPage id="shiftReport"
 		navButtonPress="onNavBack" showNavButton="false"  headerExpanded = "false" title="{i18n>reportShiftItems}" showFooter="false" preserveHeaderStateOnScroll="false" toggleHeaderOnTitleClick="true">
 		<semantic:titleHeading>
-			<f:SimpleForm id="reportOverview"
+		<HBox id="overviewBox">
+			<f:SimpleForm
 				title = "{i18n>shiftReport}"
 				editable="false"
-				layout="ResponsiveGridLayout"
-				labelSpanXL="4"
-				labelSpanL="4"
-				labelSpanM="12"
-				labelSpanS="12"
-				adjustLabelSpan="false"
-				emptySpanXL="0"
-				emptySpanL="0"
-				emptySpanM="0"
-				emptySpanS="0"
-				columnsXL="2"
-				columnsL="2"
-				columnsM="2"
-				singleContainerFullSize="true" >
+				layout="ResponsiveGridLayout" singleContainerFullSize="true" >
 				<f:content>
-					<Label text="{i18n>videos}" />
-					<Text text="{videosCount}" />
 					<Label text="{i18n>placements}" />
 					<Text text="{placementsCount}" />
 				</f:content>
 			</f:SimpleForm>
+			<f:SimpleForm 
+				title = " "
+				editable="false"
+				layout="ResponsiveGridLayout" singleContainerFullSize="true" >
+				<f:content>
+					<Label text="{i18n>videos}" />
+					<Text text="{videosCount}" />
+				</f:content>
+			</f:SimpleForm>
+			</HBox>
 		</semantic:titleHeading>
 		<semantic:content>
 
@@ -60,5 +56,8 @@
 				</dependents>
 			</Table>
 		</semantic:content>
+		<semantic:footerMainAction>
+			<semantic:FooterMainAction id="Done" text="{i18n>done}" press="onDone"/>
+		</semantic:footerMainAction>		
 	</semantic:SemanticPage>
 </mvc:View>
