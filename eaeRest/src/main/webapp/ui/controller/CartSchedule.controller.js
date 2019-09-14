@@ -115,6 +115,16 @@ sap.ui.define([
 				scheduleId : this._sScheduleId
 				
 			});
+		},
+		navigateToShiftReportCard : function(oEvent) {
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oBindingContext = oEvent.getSource().getBindingContext();
+			var oShift = oBindingContext.getObject();
+			oRouter.navTo("shiftReportCart", {
+				shiftId : oShift.guid,
+				scheduleId : this._sScheduleId
+				
+			});
 		}
 	});
 });

@@ -4,7 +4,6 @@ sap.ui.define([
 	"use strict";
 	return {
 		formatPeriodDates : function(starts, ends) {
-			console.log(starts, ends);
 			var oDateFormat = DateFormat.getDateInstance({
 			    pattern: "MMM d"
 			});

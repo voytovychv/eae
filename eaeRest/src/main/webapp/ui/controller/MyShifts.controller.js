@@ -30,7 +30,6 @@ sap.ui.define([
 		},
 
 		formatShiftAssignmentVisibility : function(oSchedule) {
-			debugger;
 			if(!oSchedule) {
 				return false;
 			} 
@@ -44,7 +43,6 @@ sap.ui.define([
 
 		onShiftPublisherPress : function(oEvent) {
 			var oSource = oEvent.getSource();
-			console.log("onShiftPublisherPress");
 			
 			if(!this._oUserActionsDialog) {
 				this._oUserActionsDialog = sap.ui.xmlfragment("useActions", "org.eae.tools.view.fragments.ScheduleContactActions", this);

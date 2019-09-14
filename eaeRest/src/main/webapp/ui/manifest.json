@@ -176,7 +176,13 @@
 			"pattern" : "placementsReportOverview/{reportId}",
 			"name" : "placementsReportOverview",
 			"target" : "placementsReportOverview"
-		}	
+		},
+		
+		{
+			"pattern" : "shiftReportCart/schedule/{scheduleId}/shift/{shiftId}",
+			"name" : "shiftReportCart",
+			"target" : "shiftReportCart"
+		}
 		
 
 	  ],
@@ -252,6 +258,10 @@
 		},
 		"shiftReportTree" : {
 		  "viewName" : "ShiftReport",
+		  "viewLevel" : 3
+		},
+		"shiftReportCart" : {
+		  "viewName" : "CartBasedShiftReport",
 		  "viewLevel" : 3
 		},
 		"placementOverview" : {

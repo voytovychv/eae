@@ -1,0 +1,74 @@
+<mvc:View controllerName="org.eae.tools.controller.CartBasedShiftReport"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<semantic:SemanticPage id="shiftReport"
+		navButtonPress="onNavBack" showNavButton="false"  headerExpanded = "false" title="{i18n>reportShiftItems}" showFooter="false" preserveHeaderStateOnScroll="false" toggleHeaderOnTitleClick="true">
+		<semantic:titleHeading>
+		<HBox id="overviewBox">
+			<f:SimpleForm
+				title = "{i18n>shiftReport}"
+				editable="false"
+				layout="ResponsiveGridLayout" singleContainerFullSize="true" >
+				<f:content>
+					<Label text="{i18n>placements}" />
+					<Text text="{placementsCount}" />
+				</f:content>
+			</f:SimpleForm>
+			<f:SimpleForm 
+				title = " "
+				editable="false"
+				layout="ResponsiveGridLayout" singleContainerFullSize="true" >
+				<f:content>
+					<Label text="{i18n>videos}" />
+					<Text text="{videosCount}" />
+				</f:content>
+			</f:SimpleForm>
+			</HBox>
+		</semantic:titleHeading>
+		<semantic:content>
+
+			<Table
+				inset="false"
+				id="idShiftReportTable"
+				itemPress="selectPublicationItem" 	
+				alternateRowColors="true"	
+				items="{
+							path: 'children',
+							factory : '.calcutateReportItem',
+							sorter: {
+								path: 'type',
+								descending: false
+							}
+						}"
+				>
+				<headerToolbar>
+					<Toolbar>
+						<Breadcrumbs id="navBreadCrumb" />
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column id="typeColumn" visible="false" mergeDuplicates="true"
+						width="30%">
+						<Text text="{i18n>type}" />
+					</Column>
+					<Column
+						width="50%">
+						<Text text="{i18n>reportItem}" />
+					</Column>
+					<Column
+						hAlign="End" >
+						<Text text="{i18n>count}" />
+					</Column>
+				</columns>
+				<dependents>
+					<core:Fragment fragmentName="org.eae.tools.view.fragments.ShiftReportCartItem" type="XML"/>
+				</dependents>
+			</Table>
+		</semantic:content>
+		<semantic:footerMainAction>
+			<semantic:FooterMainAction id="Done" text="{i18n>done}" press="onDone"/>
+		</semantic:footerMainAction>
+<!-- 		<semantic:footerCustomActions>
+			<Button id="backTo" text="{i19n>backTo}" press="onBackTo"/>
+		</semantic:footerCustomActions> -->
+	</semantic:SemanticPage>
+</mvc:View>

@@ -11,7 +11,6 @@ sap.ui.define([
 		
 		init : function(){
 			
-			console.log("Component.init");
 			UIComponent.prototype.init.apply(this, arguments);
 			
 			var oJsonModel = new EaeModel({

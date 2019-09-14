@@ -25,6 +25,31 @@ public class ReportDTO implements Serializable {
 	private BaseDTO root;
 	private String lang;
 	
+	public ReportDTO(ShiftReport report, List<Placement> allPlacements, List<PublicationLanguage> languages, String lang, Boolean isDeepTree) {
+		this.report = report;
+		this.reportGuid = this.report.getGuid();
+		this.root = new BaseDTO(); 
+		this.lang = lang;
+
+    	Set<String> types = new HashSet<>();
+    	
+    	for(Placement pl : allPlacements) {
+    		types.add(pl.getType());
+    	}
+		
+		languages.forEach((language) -> {
+			String nodeLang = language.getGuid();
+			BaseDTO langChild = new  BaseDTO();
+			langChild.setDisplayCode(language.getOriginaLangName());
+			langChild.setType(Constants.LANG);
+			
+			for(String type : types) {
+				buildLeafStructure(langChild, allPlacements, nodeLang, type, isDeepTree);
+			}
+			
+			root.addChild(langChild);
+		});		
+	}
 	public ReportDTO(ShiftReport report, List<Placement> allPlacements, List<PublicationLanguage> languages, String lang) {
 		this.report = report;
 		this.reportGuid = this.report.getGuid();
@@ -44,7 +69,7 @@ public class ReportDTO implements Serializable {
 			langChild.setType(Constants.LANG);
 			
 			for(String type : types) {
-				buildLeafStructure(langChild, allPlacements, nodeLang, type);
+				buildLeafStructure(langChild, allPlacements, nodeLang, type, true);
 			}
 			
 			root.addChild(langChild);
@@ -53,11 +78,14 @@ public class ReportDTO implements Serializable {
 	}
 
 
-	private void buildLeafStructure(BaseDTO parent, List<Placement> allPlacements, String langGuid, String type) {
+	private void buildLeafStructure(BaseDTO parent, List<Placement> allPlacements, String langGuid, String type, Boolean isDeepTree) {
 		BaseDTO branch = new BaseDTO();
 		branch.setDisplayCode(type);
 		branch.setType(type);
-		parent.addChild(branch);
+
+		if(isDeepTree) {
+			parent.addChild(branch);
+		}
 
 		allPlacements.forEach((placement) -> {
 			if(placement.getType() != null 
@@ -87,7 +115,12 @@ public class ReportDTO implements Serializable {
 				}
 				
 				leaf.setCount(count);
-				branch.addChild(leaf);
+				if(isDeepTree) {
+					branch.addChild(leaf);
+				}else {
+					parent.addChild(leaf);	
+				}
+				
 			}
 		});
 	}
