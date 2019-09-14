@@ -33,7 +33,11 @@
 				alternateRowColors="true"	
 				items="{
 							path: 'children',
-							factory : '.calcutateReportItem'
+							factory : '.calcutateReportItem',
+							sorter: {
+								path: 'type',
+								descending: false
+							}
 						}"
 				>
 				<headerToolbar>
@@ -42,8 +46,12 @@
 					</Toolbar>
 				</headerToolbar>
 				<columns>
+					<Column id="typeColumn" visible="false" mergeDuplicates="true"
+						width="30%">
+						<Text text="{i18n>type}" />
+					</Column>
 					<Column
-						width="12em">
+						width="50%">
 						<Text text="{i18n>reportItem}" />
 					</Column>
 					<Column
@@ -59,8 +67,8 @@
 		<semantic:footerMainAction>
 			<semantic:FooterMainAction id="Done" text="{i18n>done}" press="onDone"/>
 		</semantic:footerMainAction>
-		<semantic:footerCustomActions>
+<!-- 		<semantic:footerCustomActions>
 			<Button id="backTo" text="{i19n>backTo}" press="onBackTo"/>
-		</semantic:footerCustomActions>
+		</semantic:footerCustomActions> -->
 	</semantic:SemanticPage>
 </mvc:View>

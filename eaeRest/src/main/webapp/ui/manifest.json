@@ -165,7 +165,7 @@
 		{
 			"pattern" : "shiftReport/schedule/{scheduleId}/shift/{shiftId}",
 			"name" : "shiftReport",
-			"target" : "shiftReportTree"
+			"target" : "shiftReport"
 		},
 		{
 			"pattern" : "placementsReport",
@@ -176,15 +176,7 @@
 			"pattern" : "placementsReportOverview/{reportId}",
 			"name" : "placementsReportOverview",
 			"target" : "placementsReportOverview"
-		},
-		
-		{
-			"pattern" : "shiftReportCart/schedule/{scheduleId}/shift/{shiftId}",
-			"name" : "shiftReportCart",
-			"target" : "shiftReportCart"
 		}
-		
-
 	  ],
 	  "targets": {
 		"landing": {
@@ -256,12 +248,8 @@
 		  "viewName" : "PlacementsWorklist",
 		  "viewLevel" : 2
 		},
-		"shiftReportTree" : {
+		"shiftReport" : {
 		  "viewName" : "ShiftReport",
-		  "viewLevel" : 3
-		},
-		"shiftReportCart" : {
-		  "viewName" : "CartBasedShiftReport",
 		  "viewLevel" : 3
 		},
 		"placementOverview" : {

@@ -3,7 +3,8 @@
 	xmlns:core="sap.ui.core">
 			<ColumnListItem id="reportItem" type="{= ${guid}  ? 'Active' : 'Navigation'}" visible="{= ${guid} !== null || ${children}.length > 0}">
 				<cells>
-					<Text text="{ path:'displayCode', formatter: '.formatDisplayCode'}"/>								
+					<Text text="{ path:'type', formatter: '.formatDisplayCode'}" />
+					<Text text="{ path:'displayCode', formatter: '.formatDisplayCode'}"/>					
 					<Text text="{calculatedCount}" />	
 				</cells>
 			</ColumnListItem>

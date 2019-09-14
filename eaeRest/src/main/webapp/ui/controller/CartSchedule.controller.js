@@ -116,11 +116,11 @@ sap.ui.define([
 				
 			});
 		},
-		navigateToShiftReportCard : function(oEvent) {
+		navigateToShiftReport : function(oEvent) {
 			var oRouter = this.getOwnerComponent().getRouter();
 			var oBindingContext = oEvent.getSource().getBindingContext();
 			var oShift = oBindingContext.getObject();
-			oRouter.navTo("shiftReportCart", {
+			oRouter.navTo("shiftReport", {
 				shiftId : oShift.guid,
 				scheduleId : this._sScheduleId
 				

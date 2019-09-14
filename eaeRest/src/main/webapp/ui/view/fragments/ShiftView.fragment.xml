@@ -16,8 +16,7 @@
 								],
 								formatter: '.formatUtils.formatShiftTitle'}"></Text>
 			<ToolbarSpacer />
-			<Button icon="sap-icon://table-view" design="Lite" press="navigateToShiftReportCard"/>
-			<!-- <Button icon="sap-icon://tree" design="Lite" press="navigateToShiftReport"/> -->
+			<Button icon="sap-icon://table-view" design="Lite" press="navigateToShiftReport"/>
 			</Toolbar>
 		</headerToolbar>
 		<items>

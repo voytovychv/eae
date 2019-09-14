@@ -20,7 +20,6 @@
 		
 		onInit : function(){
 			var oRouter = this.getOwnerComponent().getRouter();
-			
 			oRouter.getRoute("shiftReport").attachPatternMatched(function(oEvent){
 				this.__i18nModel = this.getView().getModel("i18n");
 				this.__all_langs = this.__i18nModel.getProperty("allLanguages");
@@ -53,7 +52,7 @@
 			var lang = sap.ui.getCore().getConfiguration().getLanguage().split("-")[0];
 			var path = "/ShiftReport/schedule/" + scheduleId + "/shift/" + shiftId;
 			var oModel = this.getView().getModel();
-			oModel.post("rest/shiftReport/report/" + scheduleId + "/" + shiftId, "GET", {"lang" : lang}).then(
+			oModel.post("rest/shiftReport/report/cards/" + scheduleId + "/" + shiftId, "GET", {"lang" : lang}).then(
 				function(data) {
 					this.__reportId = data.object.reportGuid;
 					oModel.createPath(path);
@@ -71,6 +70,7 @@
 			}
 			sap.ui.core.BusyIndicator.hide();
 		},
+		
 		selectPublicationItem : function (oEvent) {
 			var li = oEvent.getParameter("srcControl");
 			var table = li.getParent();
@@ -108,6 +108,8 @@
 			
 			this.getView().byId("shiftReport").setShowFooter(true);
 			this._setNameOfBackTo();
+			
+			this.getView().byId("typeColumn").setVisible(true);
 		},
 		
 		delayedBusyOff : function() {
@@ -314,14 +316,17 @@
 			
 			if(aLinks.length === 0) {
 				this.getView().byId("shiftReport").setShowFooter(false);
+				this.getView().byId("typeColumn").setVisible(false);
+
 				return;
 			}
 			
 			var iPosToNav = aLinks.length -1;
 			var oLink = aLinks[iPosToNav];
 
-			var sBackTo = this.getView().getModel("i18n").getResourceBundle().getText("backTo", oLink.getText());
-			this.getView().byId("backTo").setText(sBackTo);
 		},
+		formatVisibleType : function(sType) {
+			return "LANG" !== sType; 
+		}
 	});
 });
