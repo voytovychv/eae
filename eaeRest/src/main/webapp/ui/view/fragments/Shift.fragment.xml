@@ -17,6 +17,7 @@
 								formatter: '.formatUtils.formatShiftTitle'}"></Text>
 			<ToolbarSpacer />
 			<!-- <Button icon="sap-icon://delete" design="Lite" press="removeShift"/> -->
+			<Button icon="sap-icon://table-view" design="Lite" press="navigateToShiftReport"/>
 			<Button icon="sap-icon://account" design="Lite" press="selectPublisherForAdd"/>
 			<Button icon="sap-icon://email" design="Lite" press="onSendInvites"/>
 			</Toolbar>

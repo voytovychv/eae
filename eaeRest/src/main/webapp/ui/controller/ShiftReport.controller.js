@@ -18,21 +18,95 @@
 		
 		__i18nModel: undefined,
 		
+		__showEmptyRows: true,
+		
+		_initi18nModels : function() {
+			this.__i18nModel = this.getView().getModel("i18n");
+			this.__all_langs = this.__i18nModel.getProperty("allLanguages");
+			this.__lang = sap.ui.getCore().getConfiguration().getLanguage().split("-")[0];	
+			this.__currentName = this.__all_langs;
+		},
+		
+		_initTableView : function(isRoot) {
+			this.getView().byId("placementsCountColumn").setVisible(isRoot);
+			this.getView().byId("videosCountColumn").setVisible(isRoot);
+			this.getView().byId("countColumn").setVisible(!isRoot);			
+		},
+		
 		onInit : function(){
+			
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("shiftReport").attachPatternMatched(function(oEvent){
-				this.__i18nModel = this.getView().getModel("i18n");
-				this.__all_langs = this.__i18nModel.getProperty("allLanguages");
+				this.__showEmptyRows = true;
+				this._initi18nModels();
 				this.__shiftId = oEvent.getParameter("arguments").shiftId;
 				this.__scheduleId = oEvent.getParameter("arguments").scheduleId;
-				this.__currentName = this.__all_langs;
-				this.refreshTable(this.__scheduleId, this.__shiftId);
-				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId + "/root";
+				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId;
 				
-				this.getView().byId("overviewBox").bindElement("/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId);
+				var oModel = this.getView().getModel();
+				oModel.post("rest/shiftReport/report/" + this.__scheduleId + "/" + this.__shiftId, "GET", {"lang" : this.__lang}).then(
+					function(data) {
+						this.__reportId = data.object.reportGuid;
+						oModel.createPath(this.__currentPath);
+						oModel.setProperty(this.__currentPath, data.object);
+						sap.ui.core.BusyIndicator.hide();
+					}.bind(this)
+				);
+				
+				var sRootPath = this.__currentPath + "/root";
+				this.getView().byId("idShiftReportTable").bindElement(sRootPath);
+				var breadCrumb = this.getView().byId("navBreadCrumb");
+				breadCrumb.setCurrentLocationText(this.__currentName);
+				if(breadCrumb.getLinks().length > 0) {
+					breadCrumb.removeAllLinks();
+				}
+				sap.ui.core.BusyIndicator.hide();
+				
+				
+				this.getView().byId("overviewBox").bindElement(this.__currentPath);
+				this._initTableView(true);
 				
 			}.bind(this));
 
+			oRouter.getRoute("shiftReportById").attachPatternMatched(function(oEvent){
+				this.__showEmptyRows = false;
+				this._initi18nModels();
+				this.__reportId = oEvent.getParameter("arguments").reportId;
+				sap.ui.core.BusyIndicator.show();
+				var oModel = this.getView().getModel();
+				oModel.post("rest/shiftReport/report/id/" + this.__reportId, "GET", {"lang" : this.__lang}).then(
+					function(data) {
+						this.__reportId = data.object.reportGuid;
+						this.__scheduleId = data.object.scheduleId;
+						this.__shiftId = data.object.shiftId;
+						this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId;
+						
+						oModel.createPath(this.__currentPath);
+						oModel.setProperty(this.__currentPath, data.object);
+
+						this.getView().byId("idShiftReportTable").bindElement(this.__currentPath + "/root");
+						
+						var breadCrumb = this.getView().byId("navBreadCrumb");
+						breadCrumb.setCurrentLocationText(this.__currentName);
+						
+						this.getView().byId("overviewBox").bindElement(this.__currentPath);
+						this._initTableView(true);
+						
+						sap.ui.core.BusyIndicator.hide();
+					}.bind(this)
+				);
+
+//				this.__shiftId = oEvent.getParameter("arguments").shiftId;
+//				this.__scheduleId = oEvent.getParameter("arguments").scheduleId;
+//				this.__currentName = this.__all_langs;
+//				this.refreshTable();
+//				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId + "/root";
+//				
+//				this.getView().byId("overviewBox").bindElement("/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId);
+				
+			}.bind(this));
+			
+			
 		},
 		
 		onNavBack : function(oEvent) {
@@ -48,27 +122,8 @@
 		},
 		
 		
-		refreshTable : function(scheduleId, shiftId) {
-			var lang = sap.ui.getCore().getConfiguration().getLanguage().split("-")[0];
-			var path = "/ShiftReport/schedule/" + scheduleId + "/shift/" + shiftId;
-			var oModel = this.getView().getModel();
-			oModel.post("rest/shiftReport/report/cards/" + scheduleId + "/" + shiftId, "GET", {"lang" : lang}).then(
-				function(data) {
-					this.__reportId = data.object.reportGuid;
-					oModel.createPath(path);
-					oModel.setProperty(path, data.object);
-					sap.ui.core.BusyIndicator.hide();
-				}.bind(this)
-			);
-			
-			var sRootPath = "/ShiftReport/schedule/" + scheduleId + "/shift/" + shiftId + "/root";
-			this.getView().byId("idShiftReportTable").bindElement(sRootPath);
-			var breadCrumb = this.getView().byId("navBreadCrumb");
-			breadCrumb.setCurrentLocationText(this.__currentName);
-			if(breadCrumb.getLinks().length > 0) {
-				breadCrumb.removeAllLinks();
-			}
-			sap.ui.core.BusyIndicator.hide();
+		refreshTable : function() {
+
 		},
 		
 		selectPublicationItem : function (oEvent) {
@@ -110,6 +165,7 @@
 			this._setNameOfBackTo();
 			
 			this.getView().byId("typeColumn").setVisible(true);
+			this._initTableView(false);
 		},
 		
 		delayedBusyOff : function() {
@@ -140,12 +196,12 @@
 			for(var i = length; i >= index; i--) {
 				oBreadCrumbs.removeLink(i);
 			}
-			table.bindElement(oBreadCrumbLink.data("path"));
+			table.bindElement(oBreadCrumbLink.data("path") + "/root");
 			oBreadCrumbs.setCurrentLocationText(oBreadCrumbLink.data("name"));
 			
 			if(index == 0) {
 				this.__currentName=this.__all_langs;
-				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId + "/root";
+				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId;
 			} else {
 				this.__currentName=oBreadCrumbLink.data("name");
 				this.__currentPath = oBreadCrumbLink.data("path");
@@ -156,6 +212,7 @@
 			this.delayedBusyOff();
 			
 			this._setNameOfBackTo();
+			this._initTableView(true);
 		},
 		
 		onBeforeOpenReportItem : function(oEvent) {
@@ -222,29 +279,47 @@
 		calcutateReportItem : function(sId, oContext) {
 			var oUIControl = this.byId("reportItem").clone(sId);
 			var oTreeObject = oContext.getObject();
+//			oTreeObject.calculatedCount = this.calculateChildren(oTreeObject);
+			oTreeObject.calculatedVideosCount = this.calculateChildren(oTreeObject, "VIDEO");
+			oTreeObject.calculatedPlacementsCount = this.calculateChildren(oTreeObject, "PLACEMENT");
+			oTreeObject.calculatedCount = oTreeObject.calculatedVideosCount + oTreeObject.calculatedPlacementsCount;
 			oTreeObject.calculatedCount = this.calculateChildren(oTreeObject);
-			return oUIControl;		
+			debugger;
+			if(oTreeObject.calculatedCount == 0 && !this.__showEmptyRows) {
+				return oUIControl.setVisible(false);		
+			}
+			return oUIControl;
 		},
 		
-		calculateChildren : function (oTree) {
+		calculateChildren : function (oTree, type) {
 			var count = 0;
 			var aChildren = oTree['children'];
 			if(aChildren != undefined) {
 				for(var i=0; i< aChildren.length; i++) {
 					var aNextChildren = aChildren[i];
 					if(aNextChildren != undefined) {
-						var childCount = this.calculateChildren(aNextChildren);
+						var childCount = this.calculateChildren(aNextChildren, type);
 						count += childCount;
 					}
 				}				
 			}
 
-			
-			var currentCount = oTree.count;
-			if(currentCount != undefined){
-				count += currentCount;	
+			if(oTree.type == type) {
+				var currentCount = oTree.count;
+				if(currentCount != undefined){
+					count += currentCount;	
+				}
+			} else if(( oTree.type === "BROCHURE" || oTree.type === "TRACT" || oTree.type === "BOOK" ) && type === "PLACEMENT") {
+				var currentCount = oTree.count;
+				if(currentCount != undefined){
+					count += currentCount;	
+				}
+			} else if(type === undefined) {
+				var currentCount = oTree.count;
+				if(currentCount != undefined){
+					count += currentCount;	
+				}
 			}
-			
 			return count;
 			
 		},

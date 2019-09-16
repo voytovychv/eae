@@ -17,9 +17,11 @@ sap.ui.define([
 			
 			var oDateRange = this.getView().byId("dateRange");
 			var oMonthAgoDate = new Date();
-			oMonthAgoDate.setMonth(oMonthAgoDate.getMonth() - 1);
+			oMonthAgoDate.setDate(oMonthAgoDate.getDate() - 14);
 			oDateRange.setDateValue(oMonthAgoDate);
-			oDateRange.setSecondDateValue(new Date());
+			var toDate = new Date();
+			toDate.setDate(toDate.getDate() + 1);	
+			oDateRange.setSecondDateValue(toDate);
 		},
 		
 		refreshTable : function() {
@@ -58,6 +60,13 @@ sap.ui.define([
 		},
 		handleUpdateBinding : function(eEvent) {
 			console.log("handleUpdateBinding");
+		},
+		
+		onNavigateToReportDetails : function(oEvent) {
+			var itemObject = oEvent.getParameter("listItem").getBindingContext().getObject();
+			this.getOwnerComponent().getRouter().navTo("shiftReportById", {
+				reportId : itemObject.guid
+			});
 		}
 	});
 });

@@ -6,7 +6,7 @@
 		
 			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
 				width="auto" mode="Delete" delete="handleDeleteShiftReport"
-				selectionChange="onSelectedShiftReport" updateFinished="handleUpdateBinding" itemPress="onItemPressed"
+				selectionChange="onSelectedShiftReport"  itemPress="onNavigateToReportDetails"
 				growing="true" growingThreshold="20" growingScrollToLoad="false"
 				items="{
 							path: '/ShiftReports'
@@ -17,7 +17,7 @@
 					<OverflowToolbar id="otbSubheader" height="100%">
 						<!-- <Title text="{i18n>reports}" level="H2"/> -->
 				
-				<DateRangeSelection width = "200px" id="dateRange"/>
+				<DateRangeSelection width = "70%" id="dateRange"/>
 					<!-- 	<DatePicker id="fromDate" width="200px" placeholder="From ..."
 							change="handleChange" />
 					 -->				
@@ -26,7 +26,7 @@
 						<ToolbarSpacer width="40px" /> -->
 				
 				
-						<Button text="Filter" press="onFilter" icon="sap-icon://filter" />
+						<Button press="onFilter" icon="sap-icon://filter" />
 					</OverflowToolbar>
 				</headerToolbar>
 				<columns>

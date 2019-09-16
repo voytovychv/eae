@@ -24,10 +24,14 @@ public class ReportDTO implements Serializable {
 	private int placementsCount;
 	private BaseDTO root;
 	private String lang;
+	private String scheduleId;
+	private String shiftId;
 	
 	public ReportDTO(ShiftReport report, List<Placement> allPlacements, List<PublicationLanguage> languages, String lang, Boolean isDeepTree) {
 		this.report = report;
 		this.reportGuid = this.report.getGuid();
+		this.scheduleId = report.getSchedule().getGuid();
+		this.shiftId = report.getShift().getGuid();
 		this.root = new BaseDTO(); 
 		this.lang = lang;
 
@@ -51,30 +55,31 @@ public class ReportDTO implements Serializable {
 		});		
 	}
 	public ReportDTO(ShiftReport report, List<Placement> allPlacements, List<PublicationLanguage> languages, String lang) {
-		this.report = report;
-		this.reportGuid = this.report.getGuid();
-		this.root = new BaseDTO(); 
-		this.lang = lang;
-
-    	Set<String> types = new HashSet<>();
-    	
-    	for(Placement pl : allPlacements) {
-    		types.add(pl.getType());
-    	}
-		
-		languages.forEach((language) -> {
-			String nodeLang = language.getGuid();
-			BaseDTO langChild = new  BaseDTO();
-			langChild.setDisplayCode(language.getOriginaLangName());
-			langChild.setType(Constants.LANG);
-			
-			for(String type : types) {
-				buildLeafStructure(langChild, allPlacements, nodeLang, type, true);
-			}
-			
-			root.addChild(langChild);
-		});		
-		
+//		this.report = report;
+//		this.reportGuid = this.report.getGuid();
+//		this.root = new BaseDTO(); 
+//		this.lang = lang;
+//
+//    	Set<String> types = new HashSet<>();
+//    	
+//    	for(Placement pl : allPlacements) {
+//    		types.add(pl.getType());
+//    	}
+//		
+//		languages.forEach((language) -> {
+//			String nodeLang = language.getGuid();
+//			BaseDTO langChild = new  BaseDTO();
+//			langChild.setDisplayCode(language.getOriginaLangName());
+//			langChild.setType(Constants.LANG);
+//			
+//			for(String type : types) {
+//				buildLeafStructure(langChild, allPlacements, nodeLang, type, true);
+//			}
+//			
+//			root.addChild(langChild);
+//		});		
+//		
+		this(report, allPlacements, languages, lang, true);
 	}
 
 
@@ -176,4 +181,20 @@ public class ReportDTO implements Serializable {
 	public void setPlacementsCount(int placementsCount) {
 		this.placementsCount = placementsCount;
 	}
+	public String getScheduleId() {
+		return scheduleId;
+	}
+	public void setScheduleId(String scheduleId) {
+		this.scheduleId = scheduleId;
+	}
+	public String getShiftId() {
+		return shiftId;
+	}
+	public void setShiftId(String shiftId) {
+		this.shiftId = shiftId;
+	}
+
+	
+	
+	
 }

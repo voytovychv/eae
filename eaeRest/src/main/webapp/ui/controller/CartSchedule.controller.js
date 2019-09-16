@@ -105,17 +105,17 @@ sap.ui.define([
 		formatCommentVisibility : function(sText) {
 			return !!sText;
 		},
-		
-		navigateToShiftReport : function(oEvent) {
-			var oRouter = this.getOwnerComponent().getRouter();
-			var oBindingContext = oEvent.getSource().getBindingContext();
-			var oShift = oBindingContext.getObject();
-			oRouter.navTo("shiftReport", {
-				shiftId : oShift.guid,
-				scheduleId : this._sScheduleId
-				
-			});
-		},
+//		
+//		navigateToShiftReport : function(oEvent) {
+//			var oRouter = this.getOwnerComponent().getRouter();
+//			var oBindingContext = oEvent.getSource().getBindingContext();
+//			var oShift = oBindingContext.getObject();
+//			oRouter.navTo("shiftReport", {
+//				shiftId : oShift.guid,
+//				scheduleId : this._sScheduleId
+//				
+//			});
+//		},
 		navigateToShiftReport : function(oEvent) {
 			var oRouter = this.getOwnerComponent().getRouter();
 			var oBindingContext = oEvent.getSource().getBindingContext();

@@ -152,40 +152,23 @@ public class ShiftReportController {
     		report = reportList.get(0);
     	}
 
-		ReportDTO reportDto = new ReportDTO(report, allPlacements, allLanguages, lang);
+		ReportDTO reportDto = new ReportDTO(report, allPlacements, allLanguages, lang, false);
 		Response<ReportDTO> response = new Response<ReportDTO>();
 		response.setObject(reportDto);
     	response.setSuccessful(true);
     	return response;
 	}
 	
-	@RequestMapping(value="/report/cards/{scheduleId}/{shiftId}", method=RequestMethod.GET)
-	public Response<ReportDTO> getCurrentStatusReportForCards(@PathVariable(value="scheduleId") String scheduleId, 
-														 @PathVariable(value="shiftId") String shiftId,
-														 @RequestParam(value = "lang", required = false) String lang
-			) {
+	@RequestMapping(value="/report/id/{reportId}", method=RequestMethod.GET)
+	public Response<ReportDTO> getCurrentStatusReportForCards(@PathVariable(value="reportId") String reportId,
+															  @RequestParam(value = "lang", required = false) String lang) {
 	
     	List<Placement> allPlacements = (List<Placement>) this.placementsRepo.findAll();
     	List<PublicationLanguage> allLanguages = this.langRepo.findAll(Sort.by("originaLangName"));
     	
-    	CartSchedule schedule = this.cartScheduleRepo.findById(scheduleId).get();
-
-    	Shift shift = this.shiftRepo.findById(shiftId).get();
     	
-    	ShiftReport report = null;
-    	
-    	List<ShiftReport> reportList = this.shiftReportRepo.findByShiftAndSchedule(new Shift(shiftId), new CartSchedule(scheduleId));
-    	if(reportList != null && reportList.size() == 0) {
-        	CartPoint cart = schedule.getCart();
-    		report = new ShiftReport();
-			report.setSchedule(schedule);
-			report.setShift(shift);
-			report.setCart(cart);
-			report = shiftReportRepo.saveAndFlush(report);	
-    	} else {
-    		report = reportList.get(0);
-    	}
-
+    	ShiftReport report = this.shiftReportRepo.findById(reportId).get();
+    
 		ReportDTO reportDto = new ReportDTO(report, allPlacements, allLanguages, lang, false);
 		Response<ReportDTO> response = new Response<ReportDTO>();
 		response.setObject(reportDto);

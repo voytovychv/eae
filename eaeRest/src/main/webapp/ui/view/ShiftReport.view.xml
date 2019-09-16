@@ -7,7 +7,7 @@
 			<f:SimpleForm
 				title = "{i18n>shiftReport}"
 				editable="false"
-				layout="ResponsiveGridLayout" singleContainerFullSize="true" >
+				layout="ResponsiveGridLayout" singleContainerFullSize="false" >
 				<f:content>
 					<Label text="{i18n>placements}" />
 					<Text text="{placementsCount}" />
@@ -16,7 +16,7 @@
 			<f:SimpleForm 
 				title = " "
 				editable="false"
-				layout="ResponsiveGridLayout" singleContainerFullSize="true" >
+				layout="ResponsiveGridLayout" singleContainerFullSize="false" >
 				<f:content>
 					<Label text="{i18n>videos}" />
 					<Text text="{videosCount}" />
@@ -46,17 +46,20 @@
 					</Toolbar>
 				</headerToolbar>
 				<columns>
-					<Column id="typeColumn" visible="false" mergeDuplicates="true"
-						width="30%">
+					<Column id="typeColumn" visible="false" hAlign="Start" mergeDuplicates="true" width="30%">
 						<Text text="{i18n>type}" />
 					</Column>
-					<Column
-						width="50%">
+					<Column width="30%" hAlign="Start">
 						<Text text="{i18n>reportItem}" />
 					</Column>
-					<Column
-						hAlign="End" >
+					<Column id="countColumn" hAlign="End" demandPopin="true">
 						<Text text="{i18n>count}" />
+					</Column>
+					<Column id="placementsCountColumn" hAlign="End" width="20%" demandPopin="true">
+						<Text text="{i18n>placements}" />
+					</Column>
+					<Column id="videosCountColumn" hAlign="End" width="20%" demandPopin="true">
+						<Text text="{i18n>videos}" />
 					</Column>
 				</columns>
 				<dependents>

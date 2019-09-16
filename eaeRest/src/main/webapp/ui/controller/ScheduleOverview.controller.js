@@ -273,6 +273,16 @@ sap.ui.define([
 			oListBinding.filter(aFilters.length == 0 ? [] : oOrFilter, "Application");
 		},
 		
+		navigateToShiftReport : function(oEvent) {
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oBindingContext = oEvent.getSource().getBindingContext();
+			var oShift = oBindingContext.getObject();
+			oRouter.navTo("shiftReport", {
+				shiftId : oShift.guid,
+				scheduleId : this._sScheduleId
+				
+			});
+		},
 		onSendInvitesForWeek : function(oEvent) {
 //			var oModel = this.getView().getModel();
 //			var week = ["1", "2"];

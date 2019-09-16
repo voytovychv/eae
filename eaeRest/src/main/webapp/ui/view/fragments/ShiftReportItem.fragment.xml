@@ -1,11 +1,13 @@
 <core:FragmentDefinition
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
-			<ColumnListItem id="reportItem" type="{= ${guid}  ? 'Active' : 'Navigation'}" visible="{= ${guid} !== null || ${children}.length > 0}">
+			<ColumnListItem id="reportItem" type="Active">
 				<cells>
 					<Text text="{ path:'type', formatter: '.formatDisplayCode'}" />
 					<Text text="{ path:'displayCode', formatter: '.formatDisplayCode'}"/>					
 					<Text text="{calculatedCount}" />	
+					<Text text="{calculatedPlacementsCount}" />
+					<Text text="{calculatedVideosCount}" />		
 				</cells>
 			</ColumnListItem>
 </core:FragmentDefinition>

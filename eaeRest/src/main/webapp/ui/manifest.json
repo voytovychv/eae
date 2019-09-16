@@ -168,6 +168,11 @@
 			"target" : "shiftReport"
 		},
 		{
+			"pattern" : "shiftReport/id/{reportId}",
+			"name" : "shiftReportById",
+			"target" : "shiftReport"
+		},
+		{
 			"pattern" : "placementsReport",
 			"name" : "placementsReport",
 			"target" : "placementsReportWorklist"
