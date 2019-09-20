@@ -14,14 +14,15 @@
 						<Title id="tableHeader"/>
 						<ToolbarSpacer />
 						<Button style="Lite" icon="sap-icon://add" press="onAddPlacement"></Button>
+						<SearchField liveChange="onPlacementSearch" width="12rem" />
 					</Toolbar>
 				</headerToolbar>
 				<columns>
-					<Column id="nameColumn">
-						<Text id="englishName" text="{i18n>englishName}" />
-					</Column>
 					<Column id="typeColumn">
 						<Text id="type" text="{i18n>placementType}" />
+					</Column>
+					<Column id="nameColumn">
+						<Text id="englishName" text="{i18n>englishName}" />
 					</Column>
 					<Column id="placementWtIndexColumn">
 						<Text id="wtPlacemenyIndex" text="{i18n>wtIndex}" />
@@ -33,8 +34,8 @@
 				<items>
 					<ColumnListItem type="Active">
 						<cells>
+							<Text text="{path:'type', formatter:'.formatDisplayCode'}" />
 							<Text text="{englishName}" />
-							<Text text="{type}" />	
 							<Text text="{wtIndex}" />	
 							<Text text="{language/langName}" />	
 						</cells>

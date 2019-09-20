@@ -284,7 +284,6 @@
 			oTreeObject.calculatedPlacementsCount = this.calculateChildren(oTreeObject, "PLACEMENT");
 			oTreeObject.calculatedCount = oTreeObject.calculatedVideosCount + oTreeObject.calculatedPlacementsCount;
 			oTreeObject.calculatedCount = this.calculateChildren(oTreeObject);
-			debugger;
 			if(oTreeObject.calculatedCount == 0 && !this.__showEmptyRows) {
 				return oUIControl.setVisible(false);		
 			}

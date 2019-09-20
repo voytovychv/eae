@@ -27,11 +27,11 @@
 				<Select selectedKey="{/ui/createPlacement/type}" forceSelection="true" >
 					<items>
 						<core:Item key="NONE" text="" />
-						<core:Item key="BROCHURE" text="{i18n>placement_brochure}" />
-						<core:Item key="VIDEO" text="{i18n>placement_video}" />
-						<core:Item key="TRACT" text="{i18n>placement_tract}" />
-						<core:Item key="MAGAZINE" text="{i18n>placement_magazine}" />
-						<core:Item key="BOOK" text="{i18n>placement_book}" />
+						<core:Item key="BROCHURE" text="{i18n>brochure}" />
+						<core:Item key="VIDEO" text="{i18n>video}" />
+						<core:Item key="TRACT" text="{i18n>tract}" />
+						<core:Item key="MAGAZINE" text="{i18n>magazine}" />
+						<core:Item key="BOOK" text="{i18n>book}" />
 					</items>
 				</Select>
 				<Label text="{i18n>wtIndex}" />
@@ -47,7 +47,7 @@
 		</f:SimpleForm>
 		<buttons>
 			<Button text="{i18n>ok}" press="onCreatePlacementRecord"></Button>
-			<Button text="{i18n>cancel}" press="onCancelCreatePlacemenntRecord"></Button>
+			<Button text="{i18n>cancel}" press="onCancelCreatePlacementRecord"></Button>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

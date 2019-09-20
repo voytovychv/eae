@@ -17,6 +17,7 @@
 								formatter: '.formatUtils.formatShiftTitle'}"></Text>
 			<ToolbarSpacer />
 			<Text text="{= ${assignments/0/schedule/cart/name}}" />
+			<Button icon="sap-icon://table-view" design="Lite" press="navigateToShiftReport"/>
 			</Toolbar>
 		</headerToolbar>
 		<items>

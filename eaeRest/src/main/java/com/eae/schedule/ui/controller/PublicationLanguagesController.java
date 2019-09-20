@@ -3,6 +3,7 @@ package com.eae.schedule.ui.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class PublicationLanguagesController {
 	@RequestMapping(name="/", method=RequestMethod.GET)
 	public Response<PublicationLanguage> getAll() {
 		Response<PublicationLanguage> response = new Response<PublicationLanguage>();
-		List<PublicationLanguage> languages = langs.findAll();
+		List<PublicationLanguage> languages = langs.findAll(Sort.by("isoCode"));
 		response.setSuccessful(true);
 		response.setObjects(languages);
 		return response;

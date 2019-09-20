@@ -66,5 +66,18 @@ sap.ui.define([
 			sap.m.URLHelper.redirect("https://api.whatsapp.com/send?phone=" + phoneNumber);
 			
 		},
+		
+		navigateToShiftReport : function(oEvent) {
+			sap.ui.core.BusyIndicator.show(500);
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oBindingContext = oEvent.getSource().getBindingContext();
+			sap.ui.core.BusyIndicator.show(500);
+			var oShift = oBindingContext.getObject();
+			var sScheduleId = oShift.assignments[0].schedule.guid
+			oRouter.navTo("shiftReport", {
+				shiftId : oShift.guid,
+				scheduleId : sScheduleId
+			});
+		}
 	});
 });

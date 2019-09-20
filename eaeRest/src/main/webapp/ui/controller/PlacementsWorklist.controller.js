@@ -3,6 +3,7 @@ sap.ui.define([
     "sap/ui/core/format/DateFormat"
 ], function(Controller, DateFormat){
 	return Controller.extend("org.eae.tools.controller.PlacementsWorklist", {
+		__i18nModel: undefined,
 		onInit : function(){
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("placements").attachPatternMatched(function(){
@@ -16,6 +17,7 @@ sap.ui.define([
 		},
 		
 		refreshTable : function() {
+			this.__i18nModel = this.getView().getModel("i18n");
 			this.getView().getModel().fetchData("rest/placements", "/Placements", true);
 			sap.ui.core.BusyIndicator.hide();
 		},		
@@ -79,6 +81,57 @@ sap.ui.define([
 			oRouter.navTo("placementOverview", {
 				placementId : oPlacement.guid
 			});
+		},
+		onPlacementSearch : function(oEvent) {
+			var oAssignedPublishers = this.getView().byId("table");
+			var oListBinding = oAssignedPublishers.getBinding("items");
+			
+			var aFilters = [];
+			var sQuery = oEvent.getSource().getValue();
+			
+			if (sQuery && sQuery.length > 0) {
+				var typeFilter = new sap.ui.model.Filter("type", sap.ui.model.FilterOperator.Contains, sQuery);
+				var neglishNameFilter = new sap.ui.model.Filter("englishName", sap.ui.model.FilterOperator.Contains, sQuery);
+				var langNameFilter = new sap.ui.model.Filter("language/langName", sap.ui.model.FilterOperator.Contains, sQuery);
+				var origLangName = new sap.ui.model.Filter("language/originaLangName", sap.ui.model.FilterOperator.EQ, sQuery);
+				
+				aFilters.push(typeFilter);
+				aFilters.push(neglishNameFilter);
+				aFilters.push(langNameFilter);
+				aFilters.push(origLangName);
+			}
+			var oOrFilter = new sap.ui.model.Filter({
+				filters : aFilters,
+				and: false
+			})
+			oListBinding.filter(aFilters.length == 0 ? [] : oOrFilter, "Application");
+		},
+		formatDisplayCode : function(sText) {
+			var value = "";
+			
+			switch(sText)  {
+				case("TRACT"):
+					value = this.__i18nModel.getProperty("tract");
+					break;
+
+				case("VIDEO"):
+					value = this.__i18nModel.getProperty("video");
+					break;
+				
+				case("BROCHURE"):
+					value = this.__i18nModel.getProperty("brochure");
+					break;
+
+				case("BOOK"):
+					value = this.__i18nModel.getProperty("book");
+					break;
+					
+				
+				default:
+					value = sText;
+					break;
+			}
+			return value;
 		}
 	});
 });

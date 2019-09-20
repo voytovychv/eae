@@ -3,6 +3,7 @@ package com.eae.schedule.ui.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ public class PlacementaController {
 	@RequestMapping(name="/", method=RequestMethod.GET)
 	public Response<Placement> getAll() {
 		Response<Placement> response = new Response<Placement>();
-		List<Placement> placements = (List<Placement>) placementsRepo.findAll();
+		List<Placement> placements = (List<Placement>) placementsRepo.findAll(Sort.by("type", "englishName"));
 		response.setSuccessful(true);
 		response.setObjects(placements);
 		return response;
