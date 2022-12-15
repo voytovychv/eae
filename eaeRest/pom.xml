@@ -9,7 +9,7 @@
 	<properties>
 		<eclipselink.version>2.6.5</eclipselink.version>
 		<persistence-api.version>1.0.2</persistence-api.version>
-		<spring.version>5.0.0.RELEASE</spring.version>
+		<spring.version>5.2.20.RELEASE</spring.version>
 		<jackson.version>2.12.7.1</jackson.version>
 		<javax.servlet.version>3.1.0</javax.servlet.version>
 		<spring.security.version>4.2.3.RELEASE</spring.security.version>
